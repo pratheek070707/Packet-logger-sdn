@@ -19,7 +19,6 @@ def _handle_PacketIn(event):
         ip = packet.payload
         log.info("IP: %s -> %s", ip.srcip, ip.dstip)
 
-        # ✅ CORRECT (NO .icmp)
         if isinstance(ip.payload, icmp):
             log.info("Protocol: ICMP")
 
@@ -29,7 +28,7 @@ def _handle_PacketIn(event):
         elif isinstance(ip.payload, udp):
             log.info("Protocol: UDP")
 
-    # ✅ Forward packet
+    # Forward packet
     msg = of.ofp_packet_out()
     msg.data = event.ofp
     msg.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
